@@ -4,7 +4,7 @@
     
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-black text-gray-800">Menu Items</h2>
-        <a href="#" class="bg-red-500 text-white text-[10px] font-bold px-3 py-2 rounded-lg shadow-sm hover:bg-red-600 transition">
+        <a href="{{ route('admin.menu.create') }}" class="bg-red-500 text-white text-[10px] font-bold px-3 py-2 rounded-lg shadow-sm hover:bg-red-600 transition">
             + Add New Item
         </a>
     </div>

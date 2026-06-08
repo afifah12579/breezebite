@@ -28,4 +28,29 @@ class AdminController extends Controller
         $items = Item::all();
         return view('admin.menu_items', compact('items'));
     }
+
+    // 1. Fungsi untuk tunjuk muka surat borang
+    public function createItem() {
+        return view('admin.create_item');
+    }
+
+    // 2. Fungsi untuk simpan data dari borang ke database
+    public function storeItem(Request $request) {
+        $item = new Item();
+        $item->name = $request->name;
+        $item->category = $request->category;
+        $item->price = $request->price;
+        $item->description = $request->description;
+
+        // Kalau admin ada upload gambar, kita simpan dalam folder images
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();  
+            $request->image->move(public_path('images'), $imageName);
+            $item->image = $imageName;
+        }
+
+        $item->save(); // Save ke database!
+
+        return redirect()->route('admin.menu.items');
+    }
 }

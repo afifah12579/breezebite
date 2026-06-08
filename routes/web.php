@@ -34,5 +34,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::get('/orders/{id}/edit', [AdminController::class, 'editOrderStatus'])->name('orders.edit');
     Route::put('/orders/{id}/update', [AdminController::class, 'updateOrderStatus'])->name('orders.update');
+
+    //Menu-items Admin 
     Route::get('/menu-items', [AdminController::class, 'menuItems'])->name('menu.items');
+    // Buka borang tambah makanan
+    Route::get('/menu-items/create', [AdminController::class, 'createItem'])->name('menu.create');
+    // Simpan makanan ke database
+    Route::post('/menu-items', [AdminController::class, 'storeItem'])->name('menu.store');
 });
