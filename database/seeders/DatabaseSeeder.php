@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'keropok lekot',
             'category' => 'snacks',
             'price' => 2.00,
-            'description' => 'Crispy fish.',
+            'description' => 'Crispy fish',
             'image' => 'kentang.jpg'
         ]);
         
