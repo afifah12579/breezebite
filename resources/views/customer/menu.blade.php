@@ -165,3 +165,8 @@ function switchCategory(category) {
 }
 </script>
 @endsection
+<<<<<<< HEAD
+=======
+
+jwhueggweqgdgqwgiwgewggegqwg
+>>>>>>> 60706d5809b404319adfc5ee847602342492104c
