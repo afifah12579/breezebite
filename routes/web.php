@@ -23,6 +23,11 @@ Route::get('/order-success', [CustomerController::class, 'orderSuccess'])->name(
 Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
 Route::post('/cart/update/{id}', [\App\Http\Controllers\CustomerController::class, 'updateCart'])->name('customer.cart.update');
 Route::delete('/cart/remove/{id}', [\App\Http\Controllers\CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
+Route::get('/order/success', function () {
+    return view('customer.success');
+})->name('customer.order.success');
+
+
 
 // --- Admin Authentication Routes (10 Marks) ---
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');

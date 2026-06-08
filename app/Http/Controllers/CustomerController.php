@@ -108,4 +108,22 @@ public function removeFromCart($id)
 }
 
     public function orderSuccess() { return view('customer.success'); }
+
+    // FUNGSI INI UNTUK MENYELESAIKAN RALAT "UNDEFINED METHOD"
+public function placeOrder(Request $request)
+{
+    $cart = session()->get('cart', []);
+
+    // Jika troli kosong, hantar pengguna kembali ke menu
+    if (empty($cart)) {
+        return redirect()->route('customer.menu')->with('error', 'Your cart is empty!');
+    }
+
+    // Di sini anda boleh masukkan logik untuk simpan data ke database Order jika perlu.
+    // Buat masa ini, kita kosongkan troli selepas order berjaya dibuat:
+    session()->forget('cart');
+
+    // Bawa pengguna ke halaman success
+    return redirect()->route('customer.order.success');
+}
 }
