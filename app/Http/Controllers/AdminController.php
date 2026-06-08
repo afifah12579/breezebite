@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function orders() {
         $orders = Order::orderBy('created_at', 'desc')->get();
-        return view('admin.orders', compact('orders'));
+        return view('admin.order', compact('orders'));
     }
 
     public function editOrderStatus($id) {
