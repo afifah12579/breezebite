@@ -12,7 +12,8 @@ use App\Http\Controllers\AuthController;
 // --- Customer Interface Routes ---
 Route::get('/', [CustomerController::class, 'index'])->name('customer.welcome');
 Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
-Route::get('/menu', [CustomerController::class, 'menu'])->name('customer.menu');
+//Route::get('/menu', [CustomerController::class, 'menu'])->name('customer.menu');
+Route::get('/menu', [App\Http\Controllers\CustomerController::class, 'menu'])->name('customer.menu');
 Route::get('/item/{id}', [CustomerController::class, 'showItem'])->name('customer.item');
 Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
 Route::get('/cart', [CustomerController::class, 'viewCart'])->name('customer.cart');
