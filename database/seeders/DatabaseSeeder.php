@@ -61,7 +61,13 @@ class DatabaseSeeder extends Seeder
             'image' => 'kentang.jpg'
         ]);
         
-        
+        Item::create([
+            'name' => 'keropok lekot',
+            'category' => 'snacks',
+            'price' => 2.00,
+            'description' => 'Crispy fish.',
+            'image' => 'kentang.jpg'
+        ]);
         
         
         
