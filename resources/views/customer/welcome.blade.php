@@ -289,7 +289,7 @@
         @csrf
         <div>
             <label class="block text-gray-700 font-bold text-sm mb-1">Table Number</label>
-            <input type="text" name="table_number" class="w-full border-2 border-gray-200 p-3 rounded-lg text-gray-900 focus:outline-none focus:border-red-500 font-bold" placeholder="02" required>
+            <input type="text" name="table_number" class="w-full border-2 border-gray-200 p-3 rounded-lg text-gray-900 focus:outline-none focus:border-red-500 font-bold" placeholder="01" required>
         </div>
         <div>
             <label class="block text-gray-700 font-bold text-sm mb-1">Order Type</label>
