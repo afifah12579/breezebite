@@ -24,65 +24,6 @@
 
     <div id="menu-containers">
         
-        <div id="section-foods" class="menu-section space-y-3 grid grid-cols-2 gap-4">
-            @forelse($foods as $item)
-                <form action="{{ route('customer.cart.add', $item->id) }}" method="POST" id="add-form-{{ $item->id }}" class="m-0 block w-full">
-                    @csrf
-                    <div onclick="document.getElementById('add-form-{{ $item->id }}').submit();" 
-                         class="group bg-white rounded-2xl p-3 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer h-full w-full">
-                        <div>
-                            <div class="w-full aspect-square max-h-28 rounded-xl overflow-hidden bg-white flex items-center justify-center border border-gray-100 mb-3">
-                                <img src="{{ asset('images/' . ($item->image ?? 'nasi_lemak.jpg')) }}" 
-                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                     onerror="this.onerror=null; this.src='{{ asset('images/nasi_lemak.jpg') }}';">
-                            </div>
-                            <div>
-                                <h3 class="font-extrabold text-gray-800 text-sm tracking-tight leading-tight">{{ $item->name }}</h3>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center mt-3 pt-2 border-t border-slate-50">
-                            <span class="text-xs font-black text-red-500">RM {{ number_format($item->price, 2) }}</span>
-                            <div class="w-6 h-6 rounded-full bg-slate-50 group-hover:bg-red-500 text-slate-400 group-hover:text-white flex items-center justify-center text-[10px] font-bold transition-all">➔</div>
-                        </div>
-                    </div>
-                </form>
-            @empty
-                {{-- this forces a beautiful placeholder item to show! --}}
-                <form action="#" method="POST" class="m-0 block w-full col-span-2">
-                    <div class="group bg-white rounded-2xl p-3 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full w-full">
-                        <div>
-                            <div class="w-full aspect-square max-h-28 rounded-xl overflow-hidden bg-white flex items-center justify-center border border-gray-100 mb-3">
-                                <img src="{{ asset('images/nasi-kerabu.jpg') }}" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h3 class="font-extrabold text-gray-800 text-sm">Nasi Kerabu (Local DB Fallback)</h3>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center mt-3 pt-2 border-t border-slate-50">
-                            <span class="text-xs font-black text-red-500">RM 10.50</span>
-                            <div class="w-6 h-6 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center text-[10px] font-bold">➔</div>
-                        </div>
-                    </div>
-                </form>
-
-                <form action="#" method="POST" class="m-0 block w-full col-span-2">
-                    <div class="group bg-white rounded-2xl p-3 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full w-full">
-                        <div>
-                            <div class="w-full aspect-square max-h-28 rounded-xl overflow-hidden bg-white flex items-center justify-center border border-gray-100 mb-3">
-                                <img src="{{ asset('images/nasi-lemak.jpg') }}" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h3 class="font-extrabold text-gray-800 text-sm">Nasi Lemak (Local DB Fallback)</h3>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center mt-3 pt-2 border-t border-slate-50">
-                            <span class="text-xs font-black text-red-500">RM 10.50</span>
-                            <div class="w-6 h-6 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center text-[10px] font-bold">➔</div>
-                        </div>
-                    </div>
-                </form>
-            @endforelse
-        </div>
         <div id="section-foods" class="menu-section flex flex-col space-y-4">
     @forelse($foods as $item)
         <!-- MAHA PENTING: Pastikan kad dibungkus dengan tag <a> ini untuk memicu perpindahan halaman -->
@@ -90,9 +31,9 @@
             <div class="flex flex-col">
                 <!-- BOX IMAGE -->
                 <div class="w-full aspect-[21/9] rounded-xl overflow-hidden bg-slate-50 border border-slate-100 mb-3 flex items-center justify-center">
-                    <img src="{{ asset('images/' . ($item->image ?? 'nasi_lemak.jpg')) }}" 
+                    <img src="{{ asset('images/' . ($item->image ?? 'nasi-kerabu.jpg')) }}" 
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                         onerror="this.onerror=null; this.src='{{ asset('images/nasi_lemak.jpg') }}';">
+                         onerror="this.onerror=null; this.src='{{ asset('images/nasi-kerabu.jpg') }}';">
                 </div>
                 
                 <!-- INFO TEXT -->
@@ -108,32 +49,11 @@
             </div>
         </a>
     @empty
-        <div class="text-center py-12 text-slate-400 text-xs font-medium">No foods listed yet.</div>
+       
     @endforelse
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div id="section-drinks" class="menu-section grid grid-cols-2 gap-4 hidden">
+ <div id="section-drinks" class="menu-section grid grid-cols-2 gap-4 hidden">
             @forelse($drinks as $item)
                 <form action="{{ route('customer.cart.add', $item->id) }}" method="POST" id="add-form-{{ $item->id }}" class="m-0 block w-full">
                     @csrf
@@ -141,9 +61,9 @@
                          class="group bg-white rounded-2xl p-3 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer h-full w-full box-border">
                         <div>
                             <div class="w-full aspect-square max-h-28 rounded-xl bg-slate-50 overflow-hidden border border-slate-100/60 mb-3 relative flex items-center justify-center">
-                                <img src="{{ asset('images/' . ($item->image ?? 'ice-water.jpg')) }}" 
+                                <img src="{{ asset('images/' . ($item->image ?? 'teh-ais.jpg')) }}" 
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                     onerror="this.onerror=null; this.src='{{ asset('images/ice-water.jpg') }}';">
+                                     onerror="this.onerror=null; this.src='{{ asset('images/teh-ais.jpg') }}';">
                             </div>
                             <h3 class="font-black text-slate-800 text-sm leading-tight tracking-tight group-hover:text-red-500 transition-colors line-clamp-2">
                                 {{ $item->name }}

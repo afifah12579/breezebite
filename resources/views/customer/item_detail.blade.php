@@ -12,9 +12,9 @@
     <div class="bg-white rounded-3xl p-4 shadow-xs border border-slate-100 flex-1 flex flex-col justify-between mb-2">
         <div>
             <div class="w-full aspect-square max-h-72 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 mb-5">
-                <img src="{{ asset('images/' . ($item->image ?? 'nasi_lemak.jpg')) }}" 
+                <img src="{{ asset('images/' . ($item->image ?? 'nasi-kerabu.jpg')) }}" 
                      class="w-full h-full object-cover"
-                     onerror="this.onerror=null; this.src='{{ asset('images/nasi_lemak.jpg') }}';">
+                     onerror="this.onerror=null; this.src='{{ asset('images/nasi-kerabu.jpg') }}';">
             </div>
 
             <div class="mb-4">

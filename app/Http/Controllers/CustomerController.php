@@ -56,25 +56,56 @@ class CustomerController extends Controller
     return redirect()->route('customer.menu')->with('success', $item->name . ' added to cart!');
 }
 
-    public function viewCart() { return view('customer.cart'); }
+    // 1. PANDANGAN TROLI (Mengira Harga Bersandarkan Kuantiti)
+public function viewCart()
+{
+    $cart = session()->get('cart', []);
+    $total = 0;
 
-    public function placeOrder() {
-        $cart = session()->get('cart', []);
-        if (empty($cart)) return redirect()->route('customer.menu');
-
-        $total = array_sum(array_map(fn($v) => $v['price'] * $v['quantity'], $cart));
-
-        Order::create([
-            'table_number' => session('table_number'),
-            'order_type' => session('order_type'),
-            'items' => $cart,
-            'total_price' => $total,
-            'status' => 'Pending'
-        ]);
-
-        session()->forget('cart');
-        return redirect()->route('customer.success');
+    // Kitar setiap item dalam cart dan darabkan harga dengan kuantiti
+    foreach ($cart as $id => $details) {
+        $total += $details['price'] * $details['quantity'];
     }
+
+    return view('customer.cart', compact('cart', 'total'));
+}
+
+// 2. KEMASKINI KUANTITI (Tambah / Tolak)
+public function updateCart(Request $request, $id)
+{
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        $action = $request->input('action');
+        
+        if ($action === 'increase') {
+            $cart[$id]['quantity']++;
+        } elseif ($action === 'decrease') {
+            $cart[$id]['quantity']--;
+            // Jika kuantiti kurang dari 1, padam terus dari troli
+            if ($cart[$id]['quantity'] < 1) {
+                unset($cart[$id]);
+            }
+        }
+        
+        session()->put('cart', $cart);
+    }
+
+    return redirect()->route('customer.cart')->with('success', 'Cart updated successfully!');
+}
+
+// 3. PADAM ITEM DARIPADA CART (Fungsi Butang Delete)
+public function removeFromCart($id)
+{
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        unset($cart[$id]);
+        session()->put('cart', $cart);
+    }
+
+    return redirect()->route('customer.cart')->with('success', 'Item removed from cart!');
+}
 
     public function orderSuccess() { return view('customer.success'); }
 }

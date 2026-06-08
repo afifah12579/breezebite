@@ -20,7 +20,8 @@ Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('cu
 Route::get('/order-success', [CustomerController::class, 'orderSuccess'])->name('customer.success');
 // Route untuk memaparkan halaman butiran item/makanan yang diklik
 Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
-
+Route::post('/cart/update/{id}', [\App\Http\Controllers\CustomerController::class, 'updateCart'])->name('customer.cart.update');
+Route::delete('/cart/remove/{id}', [\App\Http\Controllers\CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
 
 // --- Admin Authentication Routes (10 Marks) ---
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');

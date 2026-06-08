@@ -38,8 +38,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Item::create([
+       'name' => 'Chicken Chop Crispy',
+       'category' => 'foods',
+       'price' => 14.70,
+       'description' => 'Fried golden crispy chicken chop served with signature black pepper sauce, crinkle fries, and fresh coleslaw.',
+       'image' => 'chicken_chop.jpg'
+        ]);
+
+        Item::create([
             'name' => 'Teh Ais',
-            'category' => 'Drinks',
+            'category' => 'drinks',
             'price' => 3.50,
             'description' => 'Refreshing chocolate malt beverage.',
             'image' => 'teh-ais.jpg'
@@ -47,7 +55,7 @@ class DatabaseSeeder extends Seeder
         
         Item::create([
             'name' => 'Curry Puff',
-            'category' => 'Snacks',
+            'category' => 'snacks',
             'price' => 2.00,
             'description' => 'Crispy pastry filled with spiced potato.',
             'image' => 'kentang.jpg'
