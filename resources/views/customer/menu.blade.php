@@ -27,7 +27,12 @@
         <div id="section-foods" class="menu-section flex flex-col space-y-4">
     @forelse($foods as $item)
         <!-- MAHA PENTING: Pastikan kad dibungkus dengan tag <a> ini untuk memicu perpindahan halaman -->
+<<<<<<< HEAD
         <a href="{{ route('customer.showItem', $item->id) }}" ...>
+=======
+        <a href="{{ route('customer.showItem', $item->id) }}" class="group bg-white rounded-2xl p-4 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 block w-full">
+            <div class="flex flex-col">
+>>>>>>> eb7ddb798d8d0020bccf89ea1921df719de6dc82
                 <!-- BOX IMAGE -->
                 <div class="w-full aspect-[21/9] rounded-xl overflow-hidden bg-slate-50 border border-slate-100 mb-3 flex items-center justify-center">
                     <img src="{{ asset('images/' . ($item->image ?? 'nasi-kerabu.jpg')) }}" 

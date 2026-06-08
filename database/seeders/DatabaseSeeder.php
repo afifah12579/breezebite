@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Item::create([
+<<<<<<< HEAD
        'name' => 'Chicken tomyam',
        'category' => 'foods',
        'price' => 9.40,
@@ -54,6 +55,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Item::create([
+=======
+>>>>>>> eb7ddb798d8d0020bccf89ea1921df719de6dc82
             'name' => 'Teh Ais',
             'category' => 'drinks',
             'price' => 3.50,
