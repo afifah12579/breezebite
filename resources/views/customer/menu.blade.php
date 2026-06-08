@@ -61,7 +61,8 @@
                          class="group bg-white rounded-2xl p-3 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer h-full w-full box-border">
                         <div>
                             <div class="w-full aspect-square max-h-28 rounded-xl bg-slate-50 overflow-hidden border border-slate-100/60 mb-3 relative flex items-center justify-center">
-                                <img src="{{ asset('images/' . ($item->image ?? 'teh-ais.jpg')) }}" 
+                                <img src="{{ asset('images/' .
+($item->image ?? 'teh-ais.jpg')) }}" 
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                      onerror="this.onerror=null; this.src='{{ asset('images/teh-ais.jpg') }}';">
                             </div>
@@ -110,7 +111,8 @@
                                      onerror="this.onerror=null; this.src='{{ asset('images/kentang.jpg') }}';">-->
                               <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=60&sig={{ urlencode($item->name) }}" 
      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-     onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2e8f0/94a3b8?text=No+Image';"> 
+     onerror="this.onerror=null; this.src='https://placehold.
+co/600x400/e2e8f0/94a3b8?text=No+Image';"> 
                             </div>
                             <h3 class="font-black text-slate-800 text-sm leading-tight tracking-tight group-hover:text-red-500 transition-colors line-clamp-2">
                                 {{ $item->name }}
@@ -165,8 +167,3 @@ function switchCategory(category) {
 }
 </script>
 @endsection
-<<<<<<< HEAD
-=======
-
-jwhueggweqgdgqwgiwgewggegqwg
->>>>>>> 60706d5809b404319adfc5ee847602342492104c
