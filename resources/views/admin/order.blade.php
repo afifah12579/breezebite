@@ -6,6 +6,14 @@
         <form action="{{ route('logout') }}" method="POST">@csrf<button class="text-xs font-bold text-red-500">Logout</button></form>
     </div>
 
+    <div class="flex space-x-6 border-b border-gray-200 mb-6 text-sm font-bold">
+        <a href="{{ route('admin.orders') }}" class="border-b-2 border-red-500 text-red-500 pb-3 px-1">
+            📦 Orders
+        </a>
+        <a href="{{ route('admin.menu.items') }}" class="text-gray-400 hover:text-gray-600 pb-3 px-1 transition">
+            🍔 Menu Items
+        </a>
+    </div>
     <div class="flex space-x-2 mb-4 font-bold text-xs">
         <span class="bg-red-500 text-white px-3 py-1.5 rounded-full">All</span>
         <span class="bg-white border text-gray-500 px-3 py-1.5 rounded-full">Pending</span>

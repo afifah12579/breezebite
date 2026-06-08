@@ -53,4 +53,37 @@ class AdminController extends Controller
 
         return redirect()->route('admin.menu.items');
     }
+
+    public function destroyItem($id) {
+        $item = Item::findOrFail($id);
+        $item->delete(); // Padam terus dari database!
+
+        return redirect()->route('admin.menu.items');
+    }
+
+    // 1. Fungsi untuk tunjuk borang edit berserta data lama
+    public function editItem($id) {
+        $item = Item::findOrFail($id);
+        return view('admin.edit_item', compact('item'));
+    }
+
+    // 2. Fungsi untuk proses simpan data baru
+    public function updateItem(Request $request, $id) {
+        $item = Item::findOrFail($id);
+        $item->name = $request->name;
+        $item->category = $request->category;
+        $item->price = $request->price;
+        $item->description = $request->description;
+
+        // Jika admin tukar gambar baru
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();  
+            $request->image->move(public_path('images'), $imageName);
+            $item->image = $imageName;
+        }
+
+        $item->save();
+
+        return redirect()->route('admin.menu.items');
+    }
 }

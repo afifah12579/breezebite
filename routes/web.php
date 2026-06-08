@@ -31,14 +31,20 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
 
 // --- Protected Admin Dashboard Routes (CRUD Operations) ---
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Route asal untuk Orders
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::get('/orders/{id}/edit', [AdminController::class, 'editOrderStatus'])->name('orders.edit');
     Route::put('/orders/{id}/update', [AdminController::class, 'updateOrderStatus'])->name('orders.update');
-
-    //Menu-items Admin 
+    
+    // Route untuk Menu Items yang kita buat tadi
     Route::get('/menu-items', [AdminController::class, 'menuItems'])->name('menu.items');
-    // Buka borang tambah makanan
     Route::get('/menu-items/create', [AdminController::class, 'createItem'])->name('menu.create');
-    // Simpan makanan ke database
     Route::post('/menu-items', [AdminController::class, 'storeItem'])->name('menu.store');
+    
+    // ⚠️ PASTIKAN BARIS INI ADA DI SINI DAN EJAANNYA BETUL:
+    Route::delete('/menu-items/{id}', [AdminController::class, 'destroyItem'])->name('menu.destroy');
+    
+    // Route untuk Edit & Update
+    Route::get('/menu-items/{id}/edit', [AdminController::class, 'editItem'])->name('menu.edit');
+    Route::put('/menu-items/{id}', [AdminController::class, 'updateItem'])->name('menu.update');
 });
