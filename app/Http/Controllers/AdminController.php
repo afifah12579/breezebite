@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Item; // <--- SILA TAMBAH BARIS INI
 
 class AdminController extends Controller
 {
@@ -21,5 +22,10 @@ class AdminController extends Controller
         $order = Order::findOrFail($id);
         $order->update(['status' => $request->status]);
         return redirect()->route('admin.orders');
+    }
+
+    public function menuItems() {
+        $items = Item::all();
+        return view('admin.menu_items', compact('items'));
     }
 }
