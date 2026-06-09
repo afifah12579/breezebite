@@ -83,7 +83,7 @@ class CustomerController extends Controller
         }
 
         // 2. SIMPAN KE DATABASE (Bahagian ini hilang dalam kod asal anda tadi)
-        $order = \App\Models\Order::create([
+        $order = Order::create([
             'table_number' => session('table_number', '00'),
             'order_type'   => session('order_type', 'Dine-in'),
             'total_price'  => $total,
