@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Item; // Pastikan Model Item di-import dengan betul
+use App\Models\Item;
+use App\Models\Order; // Pastikan Model Item di-import dengan betul
 
 class CustomerController extends Controller
 {
@@ -66,6 +67,7 @@ class CustomerController extends Controller
     }
 
     // 6. FUNGSI UNTUK MENGENDALIKAN PROSES ORDER
+    // 6. FUNGSI UNTUK MENGENDALIKAN PROSES ORDER
     public function placeOrder(Request $request)
     {
         $cart = session()->get('cart', []);
@@ -74,7 +76,24 @@ class CustomerController extends Controller
             return redirect()->route('customer.menu')->with('error', 'Your cart is empty!');
         }
 
-        // Kosongkan cart selepas order berjaya dibuat
+        // 1. Kira jumlah harga
+        $total = 0;
+        foreach($cart as $item) {
+            $total += ($item['price'] * $item['quantity']);
+        }
+
+        // 2. SIMPAN KE DATABASE (Bahagian ini hilang dalam kod asal anda tadi)
+        $order = \App\Models\Order::create([
+            'table_number' => session('table_number', '00'),
+            'order_type'   => session('order_type', 'Dine-in'),
+            'total_price'  => $total,
+            'status'       => 'Pending'
+        ]);
+
+        // 3. (Pilihan) Simpan item ke order_items jika anda sudah buat table tersebut
+        // Jika belum ada table order_items, biarkan bahagian ini dahulu
+        
+        // 4. Kosongkan troli selepas order berjaya dibuat
         session()->forget('cart');
 
         return redirect()->route('customer.order.success');
@@ -85,4 +104,40 @@ class CustomerController extends Controller
     { 
         return view('customer.success'); 
     }
+
+    public function confirmOrder()
+{
+    $cart = session()->get('cart', []);
+    
+    // Jika troli kosong, hantar balik ke menu
+    if (empty($cart)) {
+        return redirect()->route('customer.menu')->with('error', 'Your cart is empty!');
+    }
+    
+    // Kira jumlah harga (Total Price)
+    $total = 0;
+    foreach($cart as $item) {
+        $total += ($item['price'] * $item['quantity']);
+    }
+
+    return view('customer.confirm_order', compact('cart', 'total'));
+}
+
+// Tambah fungsi ini di dalam CustomerController.php
+public function selectTable(Request $request)
+{
+    $request->validate([
+        'table_number' => 'required',
+        'order_type' => 'required'
+    ]);
+
+    // Simpan maklumat meja ke dalam session
+    session([
+        'table_number' => $request->table_number,
+        'order_type' => $request->order_type
+    ]);
+
+    // Selepas pilih meja, bawa pelanggan terus ke halaman menu utama
+    return redirect()->route('customer.menu');
+}
 } // <--- PASTIKAN PENUTUP KURUNGAN KELAS INI BERADA DI PALING BAWAH SEKALI!

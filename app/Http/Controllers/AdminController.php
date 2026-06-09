@@ -9,11 +9,25 @@ use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
-    public function orders() {
-        $orders = Order::orderBy('created_at', 'desc')->get();
-        return view('admin.order', compact('orders'));
+    public function orders($status = 'all')
+{
+    // 1. Tukar input jadi huruf kecil supaya tak sensitif kes (case-insensitive)
+    $status = strtolower($status);
+
+    // 2. Jika klik tab 'all', ambil semua data
+    if ($status === 'all' || empty($status)) {
+        $orders = \App\Models\Order::orderBy('created_at', 'desc')->get();
+    } else {
+        // 3. Jika klik 'pending', 'preparing', dll, tukar huruf pertama jadi besar (ucfirst)
+        // supaya sepadan dengan database ('Pending', 'Preparing', 'Completed')
+        $orders = \App\Models\Order::where('status', ucfirst($status))
+                                   ->orderBy('created_at', 'desc')
+                                   ->get();
     }
 
+    // 4. PENTING: Tukar 'admin.orders' kepada 'admin.order' (ikut nama fail blade awak)
+    return view('admin.order', compact('orders', 'status'));
+}
     public function editOrderStatus($id) {
         $order = Order::findOrFail($id);
         return view('admin.update_status', compact('order'));
@@ -23,11 +37,6 @@ class AdminController extends Controller
         $order = Order::findOrFail($id);
         $order->update(['status' => $request->status]);
         return redirect()->route('admin.orders');
-    }
-
-    public function menuItems() {
-        $items = Item::all();
-        return view('admin.menu_items', compact('items'));
     }
 
     // 1. Fungsi untuk tunjuk muka surat borang
@@ -100,4 +109,14 @@ class AdminController extends Controller
 
     return redirect()->route('admin.menu.items');
     }
+
+    public function menuItems() {
+    // Ambil data mengikut kategori
+    $foods = Item::where('category', 'foods')->get();
+    $drinks = Item::where('category', 'drinks')->get();
+    $snacks = Item::where('category', 'snacks')->get();
+    
+    // Hantar ketiga-tiga data ke view
+    return view('admin.menu_items', compact('foods', 'drinks', 'snacks'));
+}
 }

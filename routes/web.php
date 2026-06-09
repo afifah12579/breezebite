@@ -40,6 +40,12 @@ use App\Http\Controllers\AuthController;
 //Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
 //Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
 
+// Tambah atau uncomment dua baris ini di dalam routes/web.php
+Route::get('/welcome', function () { 
+    return view('customer.welcome'); 
+})->name('customer.welcome');
+
+Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
 
 //test code baru castomeer
 // Halaman Utama & Menu Utama (Dua-dua panggil fungsi index)
@@ -53,6 +59,9 @@ Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('cu
 Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
 Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
 Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
+
+// Tambah route ini supaya pelanggan boleh pergi ke page pengesahan
+Route::get('/cart/confirm', [CustomerController::class, 'confirmOrder'])->name('customer.order.confirm');
 
 // Proses Pesanan (Order)
 Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
@@ -71,6 +80,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::get('/orders/{id}/edit', [AdminController::class, 'editOrderStatus'])->name('orders.edit');
     Route::put('/orders/{id}/update', [AdminController::class, 'updateOrderStatus'])->name('orders.update');
+    // Pastikan ia adalah Route::post, BUKAN Route::get
+Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
     
     // Route untuk Menu Items yang kita buat tadi
     Route::get('/menu-items', [AdminController::class, 'menuItems'])->name('menu.items');
@@ -83,5 +94,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Route untuk Edit & Update
     Route::get('/menu-items/{id}/edit', [AdminController::class, 'editItem'])->name('menu.edit');
     Route::put('/menu-items/{id}', [AdminController::class, 'updateItem'])->name('menu.update');
+
+    
     
 });
