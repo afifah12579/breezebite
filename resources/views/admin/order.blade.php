@@ -62,7 +62,7 @@
                 </a>
 
                 @if(strtolower($order->status) == 'completed')
-                    <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" onsubmit="return confirm('Adakah anda pasti mahu memadam rekod ini?')">
+                    <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" onsubmit="return confirm('Delete this record?')">
                         @csrf 
                         @method('DELETE')
                         <button type="submit" class="text-red-500 text-[10px] font-bold hover:underline">
