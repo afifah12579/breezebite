@@ -1,11 +1,19 @@
 @extends('layouts.app')
+
 @section('content')
-<div class="p-6 text-center my-auto">
-    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 text-green-600">✓</div>
-    <h2 class="text-2xl font-black text-gray-800">Order Placed Successfully!</h2>
-    <p class="text-sm text-gray-400 mt-2 font-medium px-4 leading-relaxed">We've sent your order to the kitchen</p>
-    <a href="{{ route('customer.welcome') }}" class="mt-8 inline-block bg-gray-900 text-white font-bold px-8 py-3 rounded-xl text-sm shadow-md">
-    Back to Start
-</a>
+<div class="h-screen flex flex-col items-center justify-center bg-white p-5 text-center">
+    
+    <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-6 animate-bounce">
+        <span class="text-4xl">✅</span>
+    </div>
+
+    <h1 class="text-2xl font-black text-slate-800 mb-2">Order Successful!</h1>
+    <p class="text-slate-500 font-bold text-sm mb-8">
+        Your food is being prepared. Thank you for choosing Breeze Bite!
+    </p>
+
+    <a href="{{ route('customer.menu') }}" class="w-full max-w-xs bg-slate-900 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-slate-800 transition-all">
+        Back to Menu
+    </a>
 </div>
 @endsection

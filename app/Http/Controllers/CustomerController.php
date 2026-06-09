@@ -103,40 +103,40 @@ public function showTakeawayDetails() {
 {
     $cart = session('cart', []);
     
-    // 1. Kira harga asal (subtotal)
+    if (empty($cart)) {
+        return redirect()->route('customer.menu')->with('error', 'Cart is empty');
+    }
+
+    // 1. Kira subtotal daripada session cart
     $subtotal = 0;
     foreach ($cart as $item) {
         $subtotal += $item['price'] * $item['quantity'];
     }
 
-    // 2. Ambil jenis pesanan
+    // 2. Kira caj berdasarkan order type
     $orderType = session('order_type', 'Dine-in');
+    $finalTotal = ($orderType == 'Takeaway') ? ($subtotal * 1.05) : $subtotal;
 
-    // 3. LOGIK AUTO-TUKAR HARGA (Tambah 5% jika Takeaway)
-    if ($orderType == 'Takeaway') {
-        $finalTotal = $subtotal * 1.05; // Harga asal + 5%
-    } else {
-        $finalTotal = $subtotal; // Harga asal
-    }
-
-    // 4. Simpan nilai $finalTotal ke dalam database
+    // 3. Simpan ke Database
     $order = new Order();
-    $order->table_number = session('table_number');
+    $order->table_number = ($orderType == 'Takeaway') ? 0 : session('table_number', 0);
     $order->order_type = $orderType;
-    $order->total_price = $finalTotal; // Admin akan nampak nilai yang dah ditambah 5%
+    $order->total_price = $finalTotal;
     $order->status = 'Pending';
     $order->save();
 
-    // 5. Bersihkan session
+    // 4. Bersihkan session
     session()->forget(['cart', 'table_number', 'order_type']);
 
-    return redirect()->route('customer.order.success');
+    // 5. Redirect ke halaman success
+    return redirect('/order/success');
 }
     // 7. HALAMAN BERJAYA ORDER
     public function orderSuccess() 
     { 
         return view('customer.success'); 
     }
+    
 
     public function confirmOrder()
 {

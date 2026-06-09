@@ -11,19 +11,18 @@ use App\Http\Controllers\AuthController;
 |--------------------------------------------------------------------------
 */
 
-// Halaman Selamat Datang / Pilih Meja
-Route::get('/welcome', function () { 
+// SEKARANG: Bila run localhost:8000, dia akan TERUS keluar Welcome Page/Pilih Meja
+Route::get('/', function () { 
     return view('customer.welcome'); 
 })->name('customer.welcome');
+
+// Tukar '/welcome' yang lama tadi jadi '/menu' supaya tak bertindih
+Route::get('/menu', [CustomerController::class, 'index'])->name('customer.menu');
 
 Route::get('/dine-in/select', [CustomerController::class, 'showTableSelection'])->name('customer.dinein.select');
 Route::get('/takeaway/details', [CustomerController::class, 'showTakeawayDetails'])->name('customer.takeaway.details');
 
 Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
-
-// Halaman Utama & Menu Utama
-Route::get('/', [CustomerController::class, 'index'])->name('customer.menu');
-Route::get('/menu', [CustomerController::class, 'index']);
 
 // Halaman Detail Item
 Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');

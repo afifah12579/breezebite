@@ -56,6 +56,17 @@ class AdminController extends Controller
 
         return redirect()->route('admin.menu.items');
     }
+    public function orders()
+{
+    // 1. Ambil semua data pesanan
+    $orders = Order::all(); 
+
+    // 2. Set status default sebagai 'all' supaya view tak ralat
+    $status = 'all'; 
+
+    // 3. Hantar KEDUA-DUA variables ($orders dan $status) ke view
+    return view('admin.order', compact('orders', 'status'));
+}
 
     public function destroyItem($id) {
     $item = Item::findOrFail($id);

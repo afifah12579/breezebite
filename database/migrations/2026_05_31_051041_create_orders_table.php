@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
         // This is your ONLY auto-increment column (The Primary Key)
         $table->id(); 
         

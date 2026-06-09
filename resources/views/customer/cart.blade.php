@@ -23,10 +23,9 @@
                 
                 <div class="bg-white rounded-2xl p-3 border border-slate-100 flex items-center justify-between shadow-xs">
                     <div class="flex items-center space-x-3">
-                        <img src="{{ asset('images/' . ($details['image'] ?? 'nasi-kerabu.jpg')) }}" 
+                        <img src="{{ asset('images/' . ($details['image'] ?? 'default.jpg')) }}" 
                              class="w-12 h-12 rounded-xl object-cover border border-slate-100 bg-slate-50"
                              onerror="this.onerror=null; this.src='https://placehold.co/100x100/e2e8f0/94a3b8?text=Food';">
-                        
                         <div>
                             <h3 class="font-extrabold text-slate-800 text-xs tracking-tight mb-1">{{ $details['name'] }}</h3>
                             <span class="text-[11px] font-black text-red-500 block">RM {{ number_format($details['price'], 2) }}</span>
@@ -35,13 +34,10 @@
 
                     <div class="flex items-center space-x-4">
                         <span class="text-xs font-bold text-slate-400">x{{ $details['quantity'] }}</span>
-                        
                         <form action="{{ route('customer.cart.remove', $id) }}" method="POST" class="m-0">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-sm p-1.5 text-slate-300 hover:text-red-500 transition-colors">
-                                🗑️
-                            </button>
+                            <button type="submit" class="text-sm p-1.5 text-slate-300 hover:text-red-500 transition-colors">🗑️</button>
                         </form>
                     </div>
                 </div>
@@ -55,7 +51,6 @@
 
         @if(count(session('cart', [])) > 0)
             @php 
-                // Kira caj pembungkusan sekiranya Takeaway
                 $packagingCharge = session('order_type') == 'Takeaway' ? ($subtotal * 0.05) : 0;
                 $grandTotal = $subtotal + $packagingCharge;
             @endphp
@@ -78,10 +73,10 @@
                     <span class="text-base font-black text-slate-800">RM {{ number_format($grandTotal, 2) }}</span>
                 </div>
 
-                <form action="{{ route('customer.order.place') }}" method="POST">
+                <form action="{{ route('customer.order.place') }}" method="POST" class="w-full">
                     @csrf
-                    <button type="submit" class="w-full bg-amber-950 text-white font-black py-4 rounded-2xl text-xs tracking-wide hover:bg-amber-900 transition-all shadow-md active:scale-[0.99]">
-                        Place Order
+                    <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-2xl font-black transition-all shadow-lg">
+                        Confirm & Place Order
                     </button>
                 </form>
             </div>
