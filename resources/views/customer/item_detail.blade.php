@@ -9,31 +9,12 @@
     </div>
 
     <div class="w-full rounded-3xl overflow-hidden border border-slate-100 mb-5 bg-slate-50 flex items-center justify-center aspect-[4/3]">
-        @php
-            // Trik alternatif: menetapkan nama fail imej fizikal berdasarkan nama makanan di database
-            $imageName = 'nasi-kerabu.jpg'; // fail lalai
-            
-            if (str_contains(strtolower($item->name), 'kerabu')) {
-                $imageName = 'nasi-kerabu.jpg';
-            } elseif (str_contains(strtolower($item->name), 'chicken chop') || str_contains(strtolower($item->name), 'crispy')) {
-                $imageName = 'chicken_chop.jpg';
-            } elseif (str_contains(strtolower($item->name), 'lemak')) {
-                $imageName = 'nasi-lemak.jpg';
-            } elseif (str_contains(strtolower($item->name), 'kentang')) {
-                $imageName = 'kentang.jpg';
-            } elseif (str_contains(strtolower($item->name), 'keropok')) {
-                $imageName = 'keropok.jpg';
-            } elseif (str_contains(strtolower($item->name), 'soto')) {
-                $imageName = 'soto.png';
-            } elseif (str_contains(strtolower($item->name), 'spaghetti')) {
-                $imageName = 'Spaghetti.jpg';
-            } elseif (str_contains(strtolower($item->name), 'tomyam')) {
-                $imageName = 'tomyam.jpg';
-            }
-        @endphp
-
-        <img src="{{ asset('images/' . $imageName) }}" class="w-full h-full object-cover" alt="{{ $item->name }}">
-    </div>
+    
+    <img src="{{ asset('images/' . $item->image) }}" 
+         class="w-full h-full object-cover" 
+         alt="{{ $item->name }}"
+         onerror="this.src='{{ asset('images/default.jpg') }}'">
+</div>
 
     <div class="flex-1 flex flex-col justify-between">
         <div>
