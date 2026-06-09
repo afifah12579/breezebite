@@ -12,6 +12,7 @@
             <div class="flex justify-between"><span>Table</span><span class="text-gray-900">Table {{ $order->table_number }}</span></div>
             <div class="flex justify-between"><span>Order Type</span><span class="text-gray-900">{{ $order->order_type }}</span></div>
             <div class="flex justify-between text-base font-black pt-2 border-t text-gray-800"><span>Total</span><span class="text-red-500">RM {{ number_format($order->total_price, 2) }}</span></div>
+            
         </div>
 
         <form action="{{ route('admin.orders.update', $order->id) }}" method="POST" id="status-form">
