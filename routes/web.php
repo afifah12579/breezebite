@@ -69,36 +69,27 @@ Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name(
 
 
 
-// --- Admin Authentication Routes (10 Marks) ---
+// --- Admin Authentication Routes ---
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/admin/login', [AuthController::class, 'login']);
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
 
-// --- Protected Admin Dashboard Routes (CRUD Operations) ---
+// --- Protected Admin Routes ---
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    // Route asal untuk Orders
-    Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    
+    // 1. Orders Routes (Disusun dengan betul)
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders'); // Untuk ALL
+    Route::get('/orders/{status}', [AdminController::class, 'orders'])->name('orders.filter'); // Untuk Filter
+    
     Route::get('/orders/{id}/edit', [AdminController::class, 'editOrderStatus'])->name('orders.edit');
     Route::put('/orders/{id}/update', [AdminController::class, 'updateOrderStatus'])->name('orders.update');
-    // Pastikan ia adalah Route::post, BUKAN Route::get
-Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
-
-Route::delete('/orders/{id}/delete', [AdminController::class, 'deleteOrder'])->name('orders.delete');
-// Pastikan guna {status?} supaya parameter ini 'optional'
-Route::get('/admin/orders/{status?}', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::delete('/orders/{id}/delete', [AdminController::class, 'deleteOrder'])->name('orders.delete');
     
-    // Route untuk Menu Items yang kita buat tadi
+    // 2. Menu Items Routes
     Route::get('/menu-items', [AdminController::class, 'menuItems'])->name('menu.items');
     Route::get('/menu-items/create', [AdminController::class, 'createItem'])->name('menu.create');
     Route::post('/menu-items', [AdminController::class, 'storeItem'])->name('menu.store');
-    
-    // PASTIKAN BARIS INI ADA DI SINI DAN EJAANNYA BETUL:
     Route::delete('/menu-items/{id}', [AdminController::class, 'destroyItem'])->name('menu.destroy');
-    
-    // Route untuk Edit & Update
     Route::get('/menu-items/{id}/edit', [AdminController::class, 'editItem'])->name('menu.edit');
     Route::put('/menu-items/{id}', [AdminController::class, 'updateItem'])->name('menu.update');
-
-    
-    
 });

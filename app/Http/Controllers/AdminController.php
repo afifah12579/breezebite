@@ -11,20 +11,18 @@ class AdminController extends Controller
 {
     public function orders($status = 'all')
 {
-    // Tukar input kepada huruf kecil untuk elak error typo
+    // Jika tiada status, kita set sebagai 'all'
     $status = strtolower($status);
 
     if ($status === 'all') {
-        // Paparkan semua pesanan
-        $orders = \App\Models\Order::orderBy('created_at', 'desc')->get();
+        $orders = Order::orderBy('created_at', 'desc')->get();
     } else {
-        // Tapis berdasarkan status (Pending/Preparing/Completed)
-        $orders = \App\Models\Order::where('status', ucfirst($status))
+        $orders = Order::where('status', ucfirst($status))
                                    ->orderBy('created_at', 'desc')
                                    ->get();
     }
 
-    // Pastikan view yang dipanggil adalah 'admin.order' (ikut nama fail blade anda)
+    // Pastikan nama view ini tepat: resources/views/admin/order.blade.php
     return view('admin.order', compact('orders', 'status'));
 }
     public function editOrderStatus($id) {
@@ -121,7 +119,7 @@ class AdminController extends Controller
 
 public function deleteOrder($id)
 {
-    $order = \App\Models\Order::findOrFail($id);
+    $order = Order::findOrFail($id);
     
     // Pastikan order betul-betul sudah 'Completed' baru boleh padam
     if (strtolower($order->status) === 'completed') {

@@ -20,15 +20,30 @@
     </div>
 
     <div class="flex space-x-4 mb-6">
-        @foreach(['all' => 'All', 'pending' => 'Pending', 'preparing' => 'Preparing', 'completed' => 'Completed'] as $key => $label)
-            <a href="{{ route('admin.orders', $key) }}" 
-               class="px-4 py-2 rounded-lg font-bold transition-all 
-               {{ request()->route('status') == $key || (request()->route('status') == null && $key == 'all') 
-                  ? 'bg-amber-950 text-white' : 'bg-gray-100 text-gray-600' }}">
-                {{ $label }}
-            </a>
-        @endforeach
-    </div>
+    <a href="{{ url('admin/orders/all') }}" 
+       class="px-4 py-2 rounded-lg font-bold transition-all 
+       {{ $status == 'all' ? 'bg-amber-950 text-white' : 'bg-gray-100 text-gray-600' }}">
+        All
+    </a>
+
+    <a href="{{ url('admin/orders/pending') }}" 
+       class="px-4 py-2 rounded-lg font-bold transition-all 
+       {{ $status == 'pending' ? 'bg-amber-950 text-white' : 'bg-gray-100 text-gray-600' }}">
+        Pending
+    </a>
+
+    <a href="{{ url('admin/orders/preparing') }}" 
+       class="px-4 py-2 rounded-lg font-bold transition-all 
+       {{ $status == 'preparing' ? 'bg-amber-950 text-white' : 'bg-gray-100 text-gray-600' }}">
+        Preparing
+    </a>
+
+    <a href="{{ url('admin/orders/completed') }}" 
+       class="px-4 py-2 rounded-lg font-bold transition-all 
+       {{ $status == 'completed' ? 'bg-amber-950 text-white' : 'bg-gray-100 text-gray-600' }}">
+        Completed
+    </a>
+</div>
 
     <div class="space-y-3">
         @forelse($orders as $order)
@@ -51,7 +66,7 @@
                         @csrf 
                         @method('DELETE')
                         <button type="submit" class="text-red-500 text-[10px] font-bold hover:underline">
-                            Delete Record
+                            Delete Order🗑
                         </button>
                     </form>
                 @endif
