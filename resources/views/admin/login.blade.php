@@ -12,6 +12,9 @@
         @if($errors->any())
             <div class="bg-red-700 text-white p-3 rounded-lg text-xs font-bold">{{ $errors->first() }}</div>
         @endif
+        <div class="flex justify-center my-6">
+    <img src="{{ asset('images/logo.png') }}" alt="BreezeBite Logo" class="w-48 h-auto">
+</div>
         <div>
             <label class="block text-white font-bold text-xs mb-1">Email</label>
             <input type="email" name="email" class="w-full p-3.5 rounded-lg bg-white text-sm shadow-inner focus:outline-none" placeholder="Enter your email" required font-medium>
