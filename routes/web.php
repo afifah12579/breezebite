@@ -83,4 +83,5 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Route untuk Edit & Update
     Route::get('/menu-items/{id}/edit', [AdminController::class, 'editItem'])->name('menu.edit');
     Route::put('/menu-items/{id}', [AdminController::class, 'updateItem'])->name('menu.update');
+    
 });

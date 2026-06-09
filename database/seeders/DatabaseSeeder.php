@@ -4,23 +4,34 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Item;
+use App\Models\User; // <-- 1. WAJIB IMPORT INI SUPAYA USER::CREATE BOLEH JALAN
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Kosongkan data lama supaya tidak bertindih setiap kali di-seed
-        Item::truncate();
+        // ==========================================
+        // 👤 AKAUN ADMIN (UNTUK LOGIN)
+        // ==========================================
+        User::truncate();
 
+        User::create([
+            'name' => 'Admin Breezebite',
+            'email' => 'admin@breezebite.com', 
+            'password' => bcrypt('admin123'),  // <-- Password anda: admin123
+        ]);
+        
         // ==========================================
         // 🍔 1. KATEGORI: FOODS (MAKANAN)
         // ==========================================
+        Item::truncate();
+
         Item::create([
             'name' => 'Nasi Kerabu Ayam Goreng',
             'category' => 'Foods',
             'price' => 10.50,
             'description' => 'Traditional blue rice served with crispy fried chicken, salted egg, and local herbs.',
-            'image' => '"C:\xampp\htdocs\breezebite-main\public\images\nasi-kerabu.jpg"'
+            'image' => 'nasi-kerabu.jpg' // <-- 2. Guna nama fail sahaja, jangan letak full path PC
         ]);
 
         Item::create([
