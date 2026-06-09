@@ -26,52 +26,29 @@
         
         <div id="section-foods" class="menu-section flex flex-col space-y-4">
             @forelse($foods as $item)
-                @php
-                    // Trik alternatif: menetapkan nama fail imej fizikal berdasarkan nama makanan di database
-                    $imageName = 'nasi-kerabu.jpg'; // fail lalai jika tiada padanan
-                    
-                    if (str_contains(strtolower($item->name), 'kerabu')) {
-                        $imageName = 'nasi-kerabu.jpg';
-                    } elseif (str_contains(strtolower($item->name), 'chicken chop') || str_contains(strtolower($item->name), 'crispy')) {
-                        $imageName = 'chicken_chop.jpg';
-                    } elseif (str_contains(strtolower($item->name), 'lemak')) {
-                        $imageName = 'nasi-lemak.jpg';
-                    } elseif (str_contains(strtolower($item->name), 'kentang')) {
-                        $imageName = 'kentang.jpg';
-                    } elseif (str_contains(strtolower($item->name), 'keropok')) {
-                        $imageName = 'keropok.jpg';
-                    } elseif (str_contains(strtolower($item->name), 'soto')) {
-                        $imageName = 'soto.png';
-                    } elseif (str_contains(strtolower($item->name), 'spaghetti')) {
-                        $imageName = 'Spaghetti.jpg';
-                    } elseif (str_contains(strtolower($item->name), 'tomyam')) {
-                        $imageName = 'tomyam.jpg';
-                    }
-                @endphp
-
-                <a href="{{ route('customer.showItem', $item->id) }}" class="group bg-white rounded-3xl p-4 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 block w-full">
-                    <div class="flex flex-col">
-
-                        <div class="w-full aspect-[21/9] rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 mb-3 flex items-center justify-center">
-                            <img src="{{ asset('images/' . $imageName) }}" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                 alt="{{ $item->name }}">
-                        </div>
-                        
-                        <div class="flex justify-between items-start mt-1">
-                            <div>
-                                <h3 class="font-extrabold text-slate-800 text-sm tracking-tight mb-1">{{ $item->name }}</h3>
-                                <span class="text-xs font-black text-red-500">RM {{ number_format($item->price, 2) }}</span>
-                            </div>
-                            <div class="w-7 h-7 rounded-full bg-slate-50 group-hover:bg-red-500 text-slate-400 group-hover:text-white flex items-center justify-center text-[10px] font-bold transition-all shadow-xs">
-                                ➔
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            @empty
-               <div class="text-center py-8 text-gray-400 text-sm font-bold">No food items available.</div>
-            @endforelse
+    <a href="{{ route('customer.showItem', $item->id) }}" class="group bg-white rounded-3xl p-4 border border-slate-100 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 block w-full">
+        <div class="flex flex-col">
+            <div class="w-full aspect-[21/9] rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 mb-3 flex items-center justify-center">
+                <img src="{{ asset('images/' . ($item->image ?? 'default.jpg')) }}" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                     alt="{{ $item->name }}"
+                     onerror="this.src='{{ asset('images/default.jpg') }}'">
+            </div>
+            
+            <div class="flex justify-between items-start mt-1">
+                <div>
+                    <h3 class="font-extrabold text-slate-800 text-sm tracking-tight mb-1">{{ $item->name }}</h3>
+                    <span class="text-xs font-black text-red-500">RM {{ number_format($item->price, 2) }}</span>
+                </div>
+                <div class="w-7 h-7 rounded-full bg-slate-50 group-hover:bg-red-500 text-slate-400 group-hover:text-white flex items-center justify-center text-[10px] font-bold transition-all shadow-xs">
+                    ➔
+                </div>
+            </div>
+        </div>
+    </a>
+@empty
+   <div class="text-center py-8 text-gray-400 text-sm font-bold">No food items available.</div>
+@endforelse
         </div>
 
         <div id="section-drinks" class="menu-section grid grid-cols-2 gap-4 hidden">

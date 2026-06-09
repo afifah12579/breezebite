@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
-use App\Models\Item; // <--- SILA TAMBAH BARIS INI
+use App\Models\Item; 
+use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
@@ -55,11 +56,17 @@ class AdminController extends Controller
     }
 
     public function destroyItem($id) {
-        $item = Item::findOrFail($id);
-        $item->delete(); // Padam terus dari database!
-
-        return redirect()->route('admin.menu.items');
+    $item = Item::findOrFail($id);
+    
+    // Padam gambar fizikal sebelum padam record dari database
+    if ($item->image && File::exists(public_path('images/' . $item->image))) {
+        File::delete(public_path('images/' . $item->image));
     }
+    
+    $item->delete(); 
+
+    return redirect()->route('admin.menu.items');
+}
 
     // 1. Fungsi untuk tunjuk borang edit berserta data lama
     public function editItem($id) {
@@ -69,21 +76,28 @@ class AdminController extends Controller
 
     // 2. Fungsi untuk proses simpan data baru
     public function updateItem(Request $request, $id) {
-        $item = Item::findOrFail($id);
-        $item->name = $request->name;
-        $item->category = $request->category;
-        $item->price = $request->price;
-        $item->description = $request->description;
+    $item = Item::findOrFail($id);
+    
+    $item->name = $request->name;
+    $item->category = $request->category;
+    $item->price = $request->price;
+    $item->description = $request->description;
 
-        // Jika admin tukar gambar baru
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('images'), $imageName);
-            $item->image = $imageName;
+    // Jika admin ada upload gambar baru
+    if ($request->hasFile('image')) {
+        // 1. Padam gambar lama jika wujud dalam folder
+        if ($item->image && File::exists(public_path('images/' . $item->image))) {
+            File::delete(public_path('images/' . $item->image));
         }
 
-        $item->save();
+        // 2. Simpan gambar baru
+        $imageName = time().'.'.$request->image->extension();  
+        $request->image->move(public_path('images'), $imageName);
+        $item->image = $imageName;
+    }
 
-        return redirect()->route('admin.menu.items');
+    $item->save();
+
+    return redirect()->route('admin.menu.items');
     }
 }
