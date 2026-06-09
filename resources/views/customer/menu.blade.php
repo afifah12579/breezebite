@@ -7,7 +7,24 @@
         <div>
             <span class="text-xs font-black tracking-widest text-red-500 uppercase">WELCOME TO</span>
             <h1 class="text-2xl font-black text-slate-800 tracking-tight">Breeze Bite</h1>
+            
+            @if(session()->has('order_type'))
+                <div class="mt-2 flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1 bg-red-50 text-red-600 px-2.5 py-1 rounded-xl text-[11px] font-black border border-red-100 shadow-2xs">
+                        <span>{{ session('order_type') == 'Dine-in' ? '🍽️' : '🛍️' }}</span>
+                        {{ session('order_type') }}
+                    </span>
+
+                    @if(session('order_type') == 'Dine-in' && session()->has('table_number'))
+                        <span class="bg-slate-200/60 text-slate-700 px-2.5 py-1 rounded-xl text-[11px] font-black border border-slate-200">
+                            Table {{ session('table_number') }}
+                        </span>
+                    @endif
+                </div>
+            @endif
         </div>
+        
+        
         <a href="{{ route('customer.cart') }}" class="relative group bg-white p-3 rounded-2xl shadow-xs border border-slate-100 hover:border-red-100 transition-all">
             <span class="text-xl">🛒</span>
             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center animate-bounce">

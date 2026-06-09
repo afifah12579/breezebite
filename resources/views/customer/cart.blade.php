@@ -17,9 +17,9 @@
 
     <div class="flex-1 flex flex-col justify-between">
         <div class="space-y-3">
-            @php $total = 0; @endphp
+            @php $subtotal = 0; @endphp
             @forelse(session('cart', []) as $id => $details)
-                @php $total += $details['price'] * $details['quantity']; @endphp
+                @php $subtotal += $details['price'] * $details['quantity']; @endphp
                 
                 <div class="bg-white rounded-2xl p-3 border border-slate-100 flex items-center justify-between shadow-xs">
                     <div class="flex items-center space-x-3">
@@ -54,10 +54,28 @@
         </div>
 
         @if(count(session('cart', [])) > 0)
-            <div class="mt-8 pt-4 border-t border-slate-200/60">
-                <div class="flex justify-between items-center mb-5">
-                    <span class="text-xs font-bold text-slate-500">Total Price</span>
-                    <span class="text-base font-black text-slate-800">RM {{ number_format($total, 2) }}</span>
+            @php 
+                // Kira caj pembungkusan sekiranya Takeaway
+                $packagingCharge = session('order_type') == 'Takeaway' ? ($subtotal * 0.05) : 0;
+                $grandTotal = $subtotal + $packagingCharge;
+            @endphp
+
+            <div class="mt-8 pt-4 border-t border-slate-200/60 flex flex-col space-y-2.5">
+                <div class="flex justify-between items-center text-slate-500">
+                    <span class="text-xs font-bold">Subtotal</span>
+                    <span class="text-xs font-extrabold text-slate-700">RM {{ number_format($subtotal, 2) }}</span>
+                </div>
+
+                @if(session('order_type') == 'Takeaway')
+                    <div class="flex justify-between items-center text-red-500">
+                        <span class="text-xs font-bold">Packaging Charge (5%)</span>
+                        <span class="text-xs font-black">RM {{ number_format($packagingCharge, 2) }}</span>
+                    </div>
+                @endif
+
+                <div class="flex justify-between items-center pt-2 border-t border-dashed border-slate-200 mb-4">
+                    <span class="text-xs font-bold text-slate-600">Total Price</span>
+                    <span class="text-base font-black text-slate-800">RM {{ number_format($grandTotal, 2) }}</span>
                 </div>
 
                 <form action="{{ route('customer.order.place') }}" method="POST">

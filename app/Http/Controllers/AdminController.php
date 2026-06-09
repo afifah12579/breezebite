@@ -9,22 +9,18 @@ use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
-    public function orders($status = 'all')
-{
-    // Jika tiada status, kita set sebagai 'all'
-    $status = strtolower($status);
+    public function index($status = 'all')
+    {
+        $status = strtolower($status);
 
-    if ($status === 'all') {
-        $orders = Order::orderBy('created_at', 'desc')->get();
-    } else {
-        $orders = Order::where('status', ucfirst($status))
-                                   ->orderBy('created_at', 'desc')
-                                   ->get();
+        if ($status == 'all') {
+            $orders = Order::orderBy('created_at', 'desc')->get();
+        } else {
+            $orders = Order::where('status', $status)->orderBy('created_at', 'desc')->get();
+        }
+
+        return view('admin.order', compact('orders', 'status'));
     }
-
-    // Pastikan nama view ini tepat: resources/views/admin/order.blade.php
-    return view('admin.order', compact('orders', 'status'));
-}
     public function editOrderStatus($id) {
         $order = Order::findOrFail($id);
         return view('admin.update_status', compact('order'));

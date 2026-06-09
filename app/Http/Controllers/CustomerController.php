@@ -8,6 +8,37 @@ use App\Models\Order; // Pastikan Model Item di-import dengan betul
 
 class CustomerController extends Controller
 {
+    public function showTableSelection() {
+    return view('customer.select_table'); // Anda kena buat file blade ni
+}
+public function selectTable(Request $request)
+{
+    // 1. Validasi data yang dihantar daripada form
+    $request->validate([
+        'table_number' => 'required'
+    ]);
+
+    // 2. Simpan maklumat meja ke dalam session Laravel
+    session([
+        'table_number' => $request->table_number,
+        'order_type' => 'Dine-in'
+    ]);
+
+    // 3. SELEPAS SIMPAN, WAJIB REDIRECT KE HALAMAN MENU
+    // Gantikan 'customer.menu' dengan nama route halaman menu anda jika berbeza
+    return redirect()->route('customer.menu'); 
+}
+
+
+public function showTakeawayDetails() {
+    // 1. Set jenis order kepada Takeaway di dalam session
+    session([
+        'order_type' => 'Takeaway'
+    ]);
+
+    // 2. Terus lencongkan (redirect) ke halaman menu
+    return redirect()->route('customer.menu');
+}
     // 1. PAPAR HALAMAN MENU
     public function index()
 {
@@ -69,36 +100,38 @@ class CustomerController extends Controller
     // 6. FUNGSI UNTUK MENGENDALIKAN PROSES ORDER
     // 6. FUNGSI UNTUK MENGENDALIKAN PROSES ORDER
     public function placeOrder(Request $request)
-    {
-        $cart = session()->get('cart', []);
-
-        if (empty($cart)) {
-            return redirect()->route('customer.menu')->with('error', 'Your cart is empty!');
-        }
-
-        // 1. Kira jumlah harga
-        $total = 0;
-        foreach($cart as $item) {
-            $total += ($item['price'] * $item['quantity']);
-        }
-
-        // 2. SIMPAN KE DATABASE (Bahagian ini hilang dalam kod asal anda tadi)
-        $order = Order::create([
-            'table_number' => session('table_number', '00'),
-            'order_type'   => session('order_type', 'Dine-in'),
-            'total_price'  => $total,
-            'status'       => 'Pending'
-        ]);
-
-        // 3. (Pilihan) Simpan item ke order_items jika anda sudah buat table tersebut
-        // Jika belum ada table order_items, biarkan bahagian ini dahulu
-        
-        // 4. Kosongkan troli selepas order berjaya dibuat
-        session()->forget('cart');
-
-        return redirect()->route('customer.order.success');
+{
+    $cart = session('cart', []);
+    
+    // 1. Kira harga asal (subtotal)
+    $subtotal = 0;
+    foreach ($cart as $item) {
+        $subtotal += $item['price'] * $item['quantity'];
     }
 
+    // 2. Ambil jenis pesanan
+    $orderType = session('order_type', 'Dine-in');
+
+    // 3. LOGIK AUTO-TUKAR HARGA (Tambah 5% jika Takeaway)
+    if ($orderType == 'Takeaway') {
+        $finalTotal = $subtotal * 1.05; // Harga asal + 5%
+    } else {
+        $finalTotal = $subtotal; // Harga asal
+    }
+
+    // 4. Simpan nilai $finalTotal ke dalam database
+    $order = new Order();
+    $order->table_number = session('table_number');
+    $order->order_type = $orderType;
+    $order->total_price = $finalTotal; // Admin akan nampak nilai yang dah ditambah 5%
+    $order->status = 'Pending';
+    $order->save();
+
+    // 5. Bersihkan session
+    session()->forget(['cart', 'table_number', 'order_type']);
+
+    return redirect()->route('customer.order.success');
+}
     // 7. HALAMAN BERJAYA ORDER
     public function orderSuccess() 
     { 
@@ -123,21 +156,4 @@ class CustomerController extends Controller
     return view('customer.confirm_order', compact('cart', 'total'));
 }
 
-// Tambah fungsi ini di dalam CustomerController.php
-public function selectTable(Request $request)
-{
-    $request->validate([
-        'table_number' => 'required',
-        'order_type' => 'required'
-    ]);
-
-    // Simpan maklumat meja ke dalam session
-    session([
-        'table_number' => $request->table_number,
-        'order_type' => $request->order_type
-    ]);
-
-    // Selepas pilih meja, bawa pelanggan terus ke halaman menu utama
-    return redirect()->route('customer.menu');
-}
 } // <--- PASTIKAN PENUTUP KURUNGAN KELAS INI BERADA DI PALING BAWAH SEKALI!

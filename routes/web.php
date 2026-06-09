@@ -5,50 +5,23 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 
-//Route::get('/', function () {
-  //  return view('welcome');
-//});
+/*
+|--------------------------------------------------------------------------
+| 1. Customer Interface Routes
+|--------------------------------------------------------------------------
+*/
 
-// --- Customer Interface Routes ---
-//Route::get('/', [CustomerController::class, 'index'])->name('customer.menu');
-//Route::get('/menu', [CustomerController::class, 'index']);
-
-//Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
-//Route::get('/menu', [CustomerController::class, 'menu'])->name('customer.menu');
-//Route::get('/menu', [App\Http\Controllers\CustomerController::class, 'menu'])->name('customer.menu');
-//Route::get('/item/{id}', [CustomerController::class, 'showItem'])->name('customer.item');
-//Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
-//Route::get('/cart', [CustomerController::class, 'viewCart'])->name('customer.cart');
-//Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
-//Route::get('/order-success', [CustomerController::class, 'orderSuccess'])->name('customer.success');
-//
-//  Route untuk memaparkan halaman butiran item/makanan yang diklik
-//Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
-//Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
-//Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
-//Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
-//Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
-//Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
-
-//Route::get('/menu', [CustomerController::class, 'menu'])->name('customer.menu');
-//Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
-//Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
-//Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
-//Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
-
-// Route untuk hantar order dan paparan sukses
-//Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
-//Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
-
-// Tambah atau uncomment dua baris ini di dalam routes/web.php
+// Halaman Selamat Datang / Pilih Meja
 Route::get('/welcome', function () { 
     return view('customer.welcome'); 
 })->name('customer.welcome');
 
+Route::get('/dine-in/select', [CustomerController::class, 'showTableSelection'])->name('customer.dinein.select');
+Route::get('/takeaway/details', [CustomerController::class, 'showTakeawayDetails'])->name('customer.takeaway.details');
+
 Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
 
-//test code baru castomeer
-// Halaman Utama & Menu Utama (Dua-dua panggil fungsi index)
+// Halaman Utama & Menu Utama
 Route::get('/', [CustomerController::class, 'index'])->name('customer.menu');
 Route::get('/menu', [CustomerController::class, 'index']);
 
@@ -60,36 +33,45 @@ Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
 Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
 Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
 
-// Tambah route ini supaya pelanggan boleh pergi ke page pengesahan
+// Pengesahan & Proses Pesanan (Order)
 Route::get('/cart/confirm', [CustomerController::class, 'confirmOrder'])->name('customer.order.confirm');
-
-// Proses Pesanan (Order)
 Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
 Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
 
 
-
-// --- Admin Authentication Routes ---
+/*
+|--------------------------------------------------------------------------
+| 2. Admin Authentication Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/admin/login', [AuthController::class, 'login']);
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
+// Pastikan ada route yang menerima parameter {status} seperti ini:
+Route::get('/admin/orders/{status}', [AdminController::class, 'index'])->name('admin.orders.filter');
 
-// --- Protected Admin Routes ---
+
+/*
+|--------------------------------------------------------------------------
+| 3. Protected Admin Dashboard Routes (Grouped)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     
-    // 1. Orders Routes (Disusun dengan betul)
-    Route::get('/orders', [AdminController::class, 'orders'])->name('orders'); // Untuk ALL
-    Route::get('/orders/{status}', [AdminController::class, 'orders'])->name('orders.filter'); // Untuk Filter
-    
+    // Pengurusan Orders (Pesanan)
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders'); // Guna nama pendek sbb dah ada prefix 'admin.'
+    Route::get('/orders/filter/{status}', [AdminController::class, 'orders'])->name('orders.filter');
     Route::get('/orders/{id}/edit', [AdminController::class, 'editOrderStatus'])->name('orders.edit');
     Route::put('/orders/{id}/update', [AdminController::class, 'updateOrderStatus'])->name('orders.update');
     Route::delete('/orders/{id}/delete', [AdminController::class, 'deleteOrder'])->name('orders.delete');
     
-    // 2. Menu Items Routes
+    // Pengurusan Menu Items (CRUD Makanan)
     Route::get('/menu-items', [AdminController::class, 'menuItems'])->name('menu.items');
     Route::get('/menu-items/create', [AdminController::class, 'createItem'])->name('menu.create');
     Route::post('/menu-items', [AdminController::class, 'storeItem'])->name('menu.store');
-    Route::delete('/menu-items/{id}', [AdminController::class, 'destroyItem'])->name('menu.destroy');
     Route::get('/menu-items/{id}/edit', [AdminController::class, 'editItem'])->name('menu.edit');
     Route::put('/menu-items/{id}', [AdminController::class, 'updateItem'])->name('menu.update');
+    Route::delete('/menu-items/{id}', [AdminController::class, 'destroyItem'])->name('menu.destroy');
+
+    
 });
