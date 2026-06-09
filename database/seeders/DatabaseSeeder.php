@@ -1,97 +1,106 @@
 <?php
+
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Item;
-//use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Item;
 
 class DatabaseSeeder extends Seeder
 {
-    //use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 1. Kosongkan data lama supaya tidak bertindih setiap kali di-seed
+        Item::truncate();
 
-        //User::factory()->create([
-           // 'name' => 'Test User',
-           // 'email' => 'test@example.com',
-        //]);
-
-        User::create([
-              'name' => 'Admin Staff',
-              'email' => 'admin@breezebite.com',
-              'password' => bcrypt('password123'),
-
+        // ==========================================
+        // 🍔 1. KATEGORI: FOODS (MAKANAN)
+        // ==========================================
+        Item::create([
+            'name' => 'Nasi Kerabu Ayam Goreng',
+            'category' => 'Foods',
+            'price' => 10.50,
+            'description' => 'Traditional blue rice served with crispy fried chicken, salted egg, and local herbs.',
+            'image' => '"C:\xampp\htdocs\breezebite-main\public\images\nasi-kerabu.jpg"'
         ]);
 
         Item::create([
-        'name' => 'Nasi Kerabu',
-         'category' => 'foods', 
-         'price' => 10.50, 
-         'description' => 'Enjoy our delicious Nasi Kerabu, served with fragrant coconut rice, crispy anchovies, roasted peanuts, fresh cucumber slices, boiled egg, and spicy sambal.',
-        'image'=>'nasi-kerabu.jpg'
+            'name' => 'Chicken Chop Crispy',
+            'category' => 'Foods',
+            'price' => 14.70,
+            'description' => 'Golden fried chicken chop served with signature black pepper sauce and crinkle fries.',
+            'image' => 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&auto=format&fit=crop&q=80'
         ]);
 
         Item::create([
-       'name' => 'Chicken Chop Crispy',
-       'category' => 'foods',
-       'price' => 14.70,
-       'description' => 'Fried golden crispy chicken chop served with signature black pepper sauce, crinkle fries, and fresh coleslaw.',
-       'image' => 'chicken_chop.jpg'
+            'name' => 'Spaghetti Carbonara',
+            'category' => 'Foods',
+            'price' => 10.40,
+            'description' => 'Rich, creamy white sauce pasta tossed with mushrooms and chicken slices.',
+            'image' => 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600&auto=format&fit=crop&q=80'
         ]);
 
         Item::create([
-<<<<<<< HEAD
-       'name' => 'Chicken tomyam',
-       'category' => 'foods',
-       'price' => 9.40,
-       'description' => 'Deliciuos tomyam soup',
-       'image' => 'tomyam.jpg'
+            'name' => 'Nasi Goreng Kampung',
+            'category' => 'Foods',
+            'price' => 8.50,
+            'description' => 'Spicy traditional fried rice cooked with anchovies, kangkung, and birds eye chili.',
+            'image' => 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600&auto=format&fit=crop&q=80'
         ]);
 
+
+        // ==========================================
+        // 🥤 2. KATEGORI: DRINKS (MINUMAN)
+        // ==========================================
         Item::create([
-=======
->>>>>>> eb7ddb798d8d0020bccf89ea1921df719de6dc82
-            'name' => 'Teh Ais',
-            'category' => 'drinks',
-            'price' => 3.50,
-            'description' => 'Refreshing chocolate malt beverage.',
+            'name' => 'Teh Ais Premium',
+            'category' => 'Drinks',
+            'price' => 4.50,
+            'description' => 'Perfectly brewed milk tea served chilled over ice.',
             'image' => 'teh-ais.jpg'
         ]);
-        
-        Item::create([
-            'name' => 'Curry Puff',
-            'category' => 'snacks',
-            'price' => 2.00,
-            'description' => 'Crispy pastry filled with spiced potato.',
-            'image' => 'kentang.jpg'
-        ]);
-        
-        Item::create([
-            'name' => 'keropok lekot',
-            'category' => 'snacks',
-            'price' => 2.00,
-            'description' => 'Crispy fish',
-            'image' => 'kentang.jpg'
-        ]);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
+        Item::create([
+            'name' => 'Milo Ais Kaw',
+            'category' => 'Drinks',
+            'price' => 4.00,
+            'description' => 'Classic Malaysian chocolate malt drink mixed thick and creamy.',
+            'image' => 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=600&auto=format&fit=crop&q=80'
+        ]);
+
+        Item::create([
+            'name' => 'Fresh Orange Juice',
+            'category' => 'Drinks',
+            'price' => 6.00,
+            'description' => 'Pure freshly squeezed orange juice rich in Vitamin C.',
+            'image' => 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&auto=format&fit=crop&q=80'
+        ]);
+
+
+        // ==========================================
+        // 🍿 3. KATEGORI: SNACKS (KUDAPAN)
+        // ==========================================
+        Item::create([
+            'name' => 'Curry Puff Crispy',
+            'category' => 'Snacks',
+            'price' => 3.00,
+            'description' => 'Flaky pastry shell filled with savory spiced potato curry.',
+            'image' => 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=600&auto=format&fit=crop&q=80'
+        ]);
+
+        Item::create([
+            'name' => 'French Fries',
+            'category' => 'Snacks',
+            'price' => 5.00,
+            'description' => 'Deep-fried golden potato strips lightly seasoned with sea salt.',
+            'image' => 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&auto=format&fit=crop&q=80'
+        ]);
+        
+        Item::create([
+            'name' => 'Chicken Nuggets',
+            'category' => 'Snacks',
+            'price' => 6.50,
+            'description' => 'Crispy tempura chicken nuggets served with chili sauce.',
+            'image' => 'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&auto=format&fit=crop&q=80'
+        ]);
     }
 }
-
-

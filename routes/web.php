@@ -10,22 +10,53 @@ use App\Http\Controllers\AuthController;
 //});
 
 // --- Customer Interface Routes ---
-Route::get('/', [CustomerController::class, 'index'])->name('customer.welcome');
-Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
+//Route::get('/', [CustomerController::class, 'index'])->name('customer.menu');
+//Route::get('/menu', [CustomerController::class, 'index']);
+
+//Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
 //Route::get('/menu', [CustomerController::class, 'menu'])->name('customer.menu');
-Route::get('/menu', [App\Http\Controllers\CustomerController::class, 'menu'])->name('customer.menu');
-Route::get('/item/{id}', [CustomerController::class, 'showItem'])->name('customer.item');
-Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
-Route::get('/cart', [CustomerController::class, 'viewCart'])->name('customer.cart');
-Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
-Route::get('/order-success', [CustomerController::class, 'orderSuccess'])->name('customer.success');
-// Route untuk memaparkan halaman butiran item/makanan yang diklik
+//Route::get('/menu', [App\Http\Controllers\CustomerController::class, 'menu'])->name('customer.menu');
+//Route::get('/item/{id}', [CustomerController::class, 'showItem'])->name('customer.item');
+//Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
+//Route::get('/cart', [CustomerController::class, 'viewCart'])->name('customer.cart');
+//Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
+//Route::get('/order-success', [CustomerController::class, 'orderSuccess'])->name('customer.success');
+//
+//  Route untuk memaparkan halaman butiran item/makanan yang diklik
+//Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
+//Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
+//Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
+//Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
+//Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
+//Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
+
+//Route::get('/menu', [CustomerController::class, 'menu'])->name('customer.menu');
+//Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
+//Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
+//Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
+//Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
+
+// Route untuk hantar order dan paparan sukses
+//Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
+//Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
+
+
+//test code baru castomeer
+// Halaman Utama & Menu Utama (Dua-dua panggil fungsi index)
+Route::get('/', [CustomerController::class, 'index'])->name('customer.menu');
+Route::get('/menu', [CustomerController::class, 'index']);
+
+// Halaman Detail Item
 Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
-Route::post('/cart/update/{id}', [\App\Http\Controllers\CustomerController::class, 'updateCart'])->name('customer.cart.update');
-Route::delete('/cart/remove/{id}', [\App\Http\Controllers\CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
-Route::get('/order/success', function () {
-    return view('customer.success');
-})->name('customer.order.success');
+
+// Pengurusan Troli (Cart)
+Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
+Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
+Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
+
+// Proses Pesanan (Order)
+Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
+Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
 
 
 
@@ -46,7 +77,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/menu-items/create', [AdminController::class, 'createItem'])->name('menu.create');
     Route::post('/menu-items', [AdminController::class, 'storeItem'])->name('menu.store');
     
-    // ⚠️ PASTIKAN BARIS INI ADA DI SINI DAN EJAANNYA BETUL:
+    // PASTIKAN BARIS INI ADA DI SINI DAN EJAANNYA BETUL:
     Route::delete('/menu-items/{id}', [AdminController::class, 'destroyItem'])->name('menu.destroy');
     
     // Route untuk Edit & Update
