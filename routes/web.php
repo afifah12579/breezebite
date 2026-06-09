@@ -82,6 +82,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::put('/orders/{id}/update', [AdminController::class, 'updateOrderStatus'])->name('orders.update');
     // Pastikan ia adalah Route::post, BUKAN Route::get
 Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
+
+Route::delete('/orders/{id}/delete', [AdminController::class, 'deleteOrder'])->name('orders.delete');
+// Pastikan guna {status?} supaya parameter ini 'optional'
+Route::get('/admin/orders/{status?}', [AdminController::class, 'orders'])->name('admin.orders');
     
     // Route untuk Menu Items yang kita buat tadi
     Route::get('/menu-items', [AdminController::class, 'menuItems'])->name('menu.items');

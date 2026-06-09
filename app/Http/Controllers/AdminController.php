@@ -11,21 +11,20 @@ class AdminController extends Controller
 {
     public function orders($status = 'all')
 {
-    // 1. Tukar input jadi huruf kecil supaya tak sensitif kes (case-insensitive)
+    // Tukar input kepada huruf kecil untuk elak error typo
     $status = strtolower($status);
 
-    // 2. Jika klik tab 'all', ambil semua data
-    if ($status === 'all' || empty($status)) {
+    if ($status === 'all') {
+        // Paparkan semua pesanan
         $orders = \App\Models\Order::orderBy('created_at', 'desc')->get();
     } else {
-        // 3. Jika klik 'pending', 'preparing', dll, tukar huruf pertama jadi besar (ucfirst)
-        // supaya sepadan dengan database ('Pending', 'Preparing', 'Completed')
+        // Tapis berdasarkan status (Pending/Preparing/Completed)
         $orders = \App\Models\Order::where('status', ucfirst($status))
                                    ->orderBy('created_at', 'desc')
                                    ->get();
     }
 
-    // 4. PENTING: Tukar 'admin.orders' kepada 'admin.order' (ikut nama fail blade awak)
+    // Pastikan view yang dipanggil adalah 'admin.order' (ikut nama fail blade anda)
     return view('admin.order', compact('orders', 'status'));
 }
     public function editOrderStatus($id) {
@@ -118,5 +117,18 @@ class AdminController extends Controller
     
     // Hantar ketiga-tiga data ke view
     return view('admin.menu_items', compact('foods', 'drinks', 'snacks'));
+}
+
+public function deleteOrder($id)
+{
+    $order = \App\Models\Order::findOrFail($id);
+    
+    // Pastikan order betul-betul sudah 'Completed' baru boleh padam
+    if (strtolower($order->status) === 'completed') {
+        $order->delete();
+        return redirect()->back()->with('success', 'Order deleted successfully!');
+    }
+    
+    return redirect()->back()->with('error', 'Only completed orders can be deleted.');
 }
 }
