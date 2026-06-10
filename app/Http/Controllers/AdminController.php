@@ -21,10 +21,19 @@ class AdminController extends Controller
 
         return view('admin.order', compact('orders', 'status'));
     }
-    public function editOrderStatus($id) {
-        $order = Order::findOrFail($id);
-        return view('admin.update_status', compact('order'));
+    public function editOrderStatus($id) 
+{
+    $order = Order::findOrFail($id);
+    
+    // Baca dari fail JSON
+    $fileName = 'orders/order_' . $id . '.json';
+    $items = [];
+    if (\Illuminate\Support\Facades\Storage::exists($fileName)) {
+        $items = json_decode(\Illuminate\Support\Facades\Storage::get($fileName), true);
     }
+
+    return view('admin.update_status', compact('order', 'items'));
+}
 
     public function updateOrderStatus(Request $request, $id) {
         $order = Order::findOrFail($id);

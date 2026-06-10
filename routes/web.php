@@ -50,6 +50,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/admin/orders/{status}', [AdminController::class, 'index'])->name('admin.orders.filter');
 
 
+
 /*
 |--------------------------------------------------------------------------
 | 3. Protected Admin Dashboard Routes (Grouped)

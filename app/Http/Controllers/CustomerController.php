@@ -125,11 +125,26 @@ public function showTakeawayDetails() {
     $order->status = 'Pending';
     $order->save();
 
+    $fileName = 'orders/order_' . $order->id . '.json';
+    \Illuminate\Support\Facades\Storage::put($fileName, json_encode(session('cart', [])));
+
+    session()->forget(['cart', 'table_number', 'order_type']);
+    return redirect('/order/success');
+
+    // ... (kod simpan order anda) ...
+    $order->save();
+
+    // Simpan ID pesanan dalam session sekejap untuk dipaparkan di halaman success
+    session()->flash('order_number', 'ORD' . str_pad($order->id, 4, '0', STR_PAD_LEFT));
+
     // 4. Bersihkan session
     session()->forget(['cart', 'table_number', 'order_type']);
 
     // 5. Redirect ke halaman success
     return redirect('/order/success');
+
+    $order->items = session('cart'); 
+$order->save();
 }
     // 7. HALAMAN BERJAYA ORDER
     public function orderSuccess() 
