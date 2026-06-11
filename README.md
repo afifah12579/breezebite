@@ -117,7 +117,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Protected Admin Routes
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     
