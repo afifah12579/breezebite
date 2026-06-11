@@ -299,7 +299,7 @@ npm run dev
 - Responsive design tested on multiple screen sizes
 
 ## Challenges Faced and Solutions
-### Challenge 1: QR COde Table Identification
+### Challenge 1: QR Code Table Identification
 - Problem: Linking each QR code to the correct table number without requiring customer login
 - Solution: Encoded the table number directly into the QR code URL
 ### Challenge 2: Real-time Order Status Updates
