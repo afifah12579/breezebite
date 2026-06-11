@@ -3,10 +3,10 @@
 # BreezeBite- QR Menu System
 
 ## Group Information
-Group Name: Broccoli
-Section: 2
+**Group Name:** Broccoli
+**Section:** 2
 
-Group Members :
+**Group Members :**
 - Nur Afifah binti Mohamad Tahir - 2418240
 - Nik Siti Nur Aisyah binti Nik Farizu - 2411436
 - Nur Nasuha binti Abdul Aziz - 2411188
@@ -28,7 +28,7 @@ BreezeBite is an advanced web-based QR menu and food ordering system developed u
 - Administrators: Restaurant staff who manage the menu and process incoming orders
 
 ## Features and Functionalities
-Customer Features
+**Customer Features**
 - QR Code Access: ScanQR code at table to open digital menu via mobile browser
 - Order Type Selection: Choose between DIne-in or Takeaway
 - Table Number Selectio: Self-select table number from the system
@@ -37,14 +37,14 @@ Customer Features
 - Shopping Cart: Add/remove items and adjust quantities before placing order
 - Order Placement: Submit order with on-screen confirmation
 
-Admin Features
+**Admin Features**
 - Admin Login: Secure authentication to access the dashboard
 - View Orders: View all customer orders with full details in real time
 - Update Order Status: Change status to Pending, Preparing or Completed
 -Menu Management: Full CRUD such as add, edit and delete menu items with images and availability status.
 
 ## Technical Implementation
-Technology Stack
+**Technology Stack**
 - Backend Framework: Laravel(PHP)
 - Frontend: Blade Templates, HTML, CSS
 - Database: MySQL
@@ -53,7 +53,7 @@ Technology Stack
 - Image Storage: Laravel File Storage
 - Version Control: GitHub
 
-Database Design
+**Database Design**
 
 Our database consists of 5 main tables designed to handle users, categories, menu items, order ad order items.
 Core Tables:
@@ -63,10 +63,10 @@ Core Tables:
 - order: Stores customer order records (order type, table number, total)
 - order_items: Stores the specific items within each order
 
-### Entity Relationship DIagram (ERD)
+### Entity Relationship Diagram (ERD)
 https://docs.google.com/document/d/1Xmu62Rd7DG5DYfYYfhA_1EmN0ug2kn8jc89NFda0Kt0/edit?usp=sharing
 
-Key reationships:
+**Key reationships:**
 - Users can have multiple Orders (One-to-Many)
 - Categories can have multiple Menu Items (One-to-Many)
 - Menu Items can appear in multiple Order Items (One-to-Many)
@@ -74,48 +74,46 @@ Key reationships:
 - Menu Items belong to a Category (Many-to-One)
 - Orders Items belong to an Order (Many-to-One)
 
-Laravel Components Implementation
+**Laravel Components Implementation**
 
 - Routes (Web.php)
-
 php
 
-// Customer Routes
-
-Route::get('/welcome', function () {
+**Customer Routes**
+    
+    Route::get('/welcome', function () {
     return view('customer.welcome');
-})->name('customer.welcome');
+    })->name('customer.welcome');
 
-Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
+    Route::post('/select-table', [CustomerController::class, 'selectTable'])->name('customer.selectTable');
 
-Route::get('/', [CustomerController::class, 'index'])->name('customer.menu');
+    Route::get('/', [CustomerController::class, 'index'])->name('customer.menu');
 
-Route::get('/menu', [CustomerController::class, 'index']);
+    Route::get('/menu', [CustomerController::class, 'index']);
 
-Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
+    Route::get('/menu/item/{id}', [CustomerController::class, 'showItem'])->name('customer.showItem');
 
-Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
-Google Docs
-ERD Diagram BreezeBite
-Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
+    Route::get('/cart', [CustomerController::class, 'cart'])->name('customer.cart');
+    
+    Route::post('/cart/add/{id}', [CustomerController::class, 'addToCart'])->name('customer.cart.add');
 
-Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
+    Route::delete('/cart/remove/{id}', [CustomerController::class, 'removeFromCart'])->name('customer.cart.remove');
 
-Route::get('/cart/confirm', [CustomerController::class, 'confirmOrder'])->name('customer.order.confirm');
+    Route::get('/cart/confirm', [CustomerController::class, 'confirmOrder'])->name('customer.order.confirm');
 
-Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
+    Route::post('/order/place', [CustomerController::class, 'placeOrder'])->name('customer.order.place');
 
-Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
+    Route::get('/order/success', [CustomerController::class, 'orderSuccess'])->name('customer.order.success');
 
-// Admin Authentication Routes
+**Admin Authentication Routes**
 
-Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
 
-Route::post('/admin/login', [AuthController::class, 'login']);
+    Route::post('/admin/login', [AuthController::class, 'login']);
 
-Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
 
-//Protected Admin Routes
+**Protected Admin Routes**
 
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
@@ -137,60 +135,57 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::put('/menu-items/{id}', [AdminController::class, 'updateItem'])->name('menu.update');
 
-});
+    });
 
-- Controllers
+## Controllers
 
-Main Controllers implemented are below:
+**Main Controllers implemented are below:**
 1. AuthController: Handles admin login, authentication and logout
 2. AdminController: Manages admin dashboard, menu items CRUD and order status updates
 3. CustomerController: Handles customer menu display, cart management and order placement
 
-- Models and Relationships
+**Models and Relationships**
 
-php
+    php
 
-// User Model
+**User Model**
 
-class User extends Authenticatable {
+    class User extends Authenticatable {
 
     // Handles admin authentication
 
-}
+        }
 
-// Item Model (Menu Items)
+**Item Model (Menu Items)**
 
-class Item extends Model {
+    class Item extends Model {
 
-    public function orderItems() {
+        public function orderItems() {
     
-        return $this->hasMany(OrderItem::class);
+            return $this->hasMany(OrderItem::class);
+            }
+            
+        public function category() {
+            return $this->belongsTo(Category::class);
     
+            }
+        }
+
+**Order Model**
+
+    class Order extends Model {
+
+        public function orderItems() {
+    
+            return $this->hasMany(OrderItem::class);
+    
+        }
+
     }
-    
-    public function category() {
-    
-        return $this->belongsTo(Category::class);
-    
-    }
-
-}
-
-// Order Model
-
-class Order extends Model {
-
-    public function orderItems() {
-    
-        return $this->hasMany(OrderItem::class);
-    
-    }
-
-}
 
 - Views and User Interface
 
-*Blade Templates Structure:*
+**Blade Templates Structure:**
 - layouts/app.blade.php: Main application layout
 - customer/welcome.blade.php: Welcome page for table selection
 - customer/menu.blade.php: Customer digital menu page
@@ -205,7 +200,7 @@ class Order extends Model {
 - admin/create_item.blade.php: Add new menu item form
 - admin/edit_item.blade.php: Edit existing menu item form
 
-*Design Features*
+**Design Features**
 - Responsive Design: Mobile-first layout
 - Color scheme: Red, black and white color
 - Navigation: Simple and intuitive structure for fast customer ordering
@@ -234,45 +229,35 @@ class Order extends Model {
 - XAMPP
 
 ### Step-by-Step Installation
-1. Clone the Repository
+**1. Clone the Repository**
 
-bash
+    bash
+    git clone https://github.com/afifah12579/breezebite.git
+    cd breezebite
 
-git clone https://github.com/afifah12579/breezebite.git
+**2. Install Dependencies**
 
-cd breezebite
+    bash 
+    composer install
+    npm install
 
-2. Install Dependencies
+**3. Environment Configuration**
 
-bash 
+    bash
+    cp .env.example .env
+    php artisan key:generate
 
-composer install
+**4. Database Setup**
 
-npm install
+    bash 
+    php artisan migrate
+    php artisan db:seed
 
-3. Environment Configuration
+**5. Start Development Server**
 
-bash
-
-cp .env.example .env
-
-php artisan key:generate
-
-4. Database Setup 
-
-bash 
-
-php artisan migrate
-
-php artisan db:seed
-
-5. Start Development Server
-
-bash 
-
-php artisan serve
-
-npm run dev
+    bash 
+    php artisan serve
+    npm run dev
 
 ## Testing and Quality Assurance
 
