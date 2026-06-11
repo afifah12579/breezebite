@@ -290,8 +290,6 @@ npm run dev
 
 ### Browser Compatibility
 - Google Chrome (Latest)
-- Mozilla Firefox (Latest)
-- Safari (Latest)
 - Microsoft Edge (Latest)
 
 ### Performance Testing
